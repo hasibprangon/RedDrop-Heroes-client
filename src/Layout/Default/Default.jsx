@@ -5,7 +5,7 @@ import Footer from '../../Shared/Footer';
 
 const Default = () => {
     return (
-        <div className='max-w-7xl mx-auto font-prata'>
+        <div className='font-prata'>
             <NavBar></NavBar>
             <Outlet></Outlet>
             <Footer></Footer>
