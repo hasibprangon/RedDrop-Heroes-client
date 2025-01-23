@@ -9,7 +9,10 @@ import { useForm } from 'react-hook-form';
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit } = useForm()
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        console.log(data)
+
+    }
     return (
         <div>
             <div className="hero bg-base-200 min-h-screen my-5">

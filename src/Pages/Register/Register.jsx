@@ -3,34 +3,109 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import animation from '../../../src/assets/Animations/Register Animation.json'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
+import useAuth from '../../Hooks/useAuth';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 
 const image = import.meta.env.VITE_IMAGE_API_KEY;
 const imageApi = `https://api.imgbb.com/1/upload?key=${image}`
 
 const Register = () => {
-    const { register, handleSubmit,  } = useForm()
-   
+    const { register, handleSubmit, reset } = useForm()
+    const { createUser, setUser, updateUserProfile } = useAuth();
     const [showPass, setShowPass] = useState(false);
     const [upazilas, setUpazilas] = useState(null);
     const [districts, setDistricts] = useState(null);
+    const axiosPublic = useAxiosPublic();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('Districts.json')
-        .then(res => res.json())
-        .then(data => setDistricts(data))
-    },[])
+            .then(res => res.json())
+            .then(data => setDistricts(data))
+    }, [])
 
-    useEffect(() =>{
+    useEffect(() => {
         fetch('Upazilas.json')
-        .then(res => res.json())
-        .then(data => setUpazilas(data))
-    },[])
+            .then(res => res.json())
+            .then(data => setUpazilas(data))
+    }, [])
 
-    const onSubmit = (data) => {
-        const image = {image: data?.image[0]}
+    const onSubmit = async (data) => {
+        const imageFile = { image: data?.image[0] }
+        console.log(data, data.name);
+
+        const res = await axiosPublic.post(imageApi, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        const image = res?.data?.data?.display_url;
+        console.log(image);
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+        if (!passwordRegex.test(data?.password)) {
+            Swal.fire({
+                icon: "error",
+                title: "Password must be contains at least an Uppercase, a Lowercase, and be at least 6 characters long",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            return;
+        };
+
+        if (data?.password !== data?.confirmPassword) {
+            Swal.fire({
+                icon: "error",
+                title: "Passwords do not match!",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            return;
+        }
+        // const profileData = {
+        //     displayName: data?.name, photoUrl: image
+        // }
+        console.log(data.email, data.password);
+        createUser(data?.email, data?.password)
+            .then(result => {
+                console.log('User created:', result)
+                const user = result?.user;
+                setUser(user);
+                updateUserProfile({displayName: data?.name, photoUrl: image})
+                    .then(() => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Registration Successful",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        reset();
+                        navigate('/');
+                    })
+                    .catch(err => {
+                        console.error('Error creating user:', err)
+                        Swal.fire({
+                            icon: "error",
+                            title: `${err.message}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    })
+            })
+            .catch(err => {
+                console.error('Error creating user:', err)
+                Swal.fire({
+                    icon: "error",
+                    title: `${err.message}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
 
     }
 
@@ -57,8 +132,8 @@ const Register = () => {
                                 <span className="label-text">Name</span>
                             </label>
                             <input
-                            {...register("name",  {required: true})}
-                            type="text" placeholder="Name" className="input input-bordered" required />
+                                {...register("name", { required: true })}
+                                type="text" placeholder="Name" className="input input-bordered" required />
                         </div>
                         {/* Photo Url */}
                         <div className="form-control">
@@ -66,15 +141,15 @@ const Register = () => {
                                 <span className="label-text">Photo</span>
                             </label>
                             <input
-                            {...register("image",  {required: true})}
-                            type="file" className="file-input file-input-bordered w-full " required/>
+                                {...register("image", { required: true })}
+                                type="file" className="file-input file-input-bordered w-full " required />
                         </div>
                         {/* blood group */}
                         <div className="form-control">
                             <label className="block font-bold">Blood Group</label>
                             <select
-                            {...register("bloodGrp",  {required: true})}
-                            name='bloodGrp' className="select select-bordered w-full " required>
+                                {...register("bloodGrp", { required: true })}
+                                name='bloodGrp' className="select select-bordered w-full " required>
                                 <option disabled selected>Select your blood group</option>
                                 <option>A+</option>
                                 <option>A-</option>
@@ -90,13 +165,13 @@ const Register = () => {
                         <div className="form-control">
                             <label className="block font-bold">Districts</label>
                             <select
-                            {...register("district",  {required: true})}
-                            name='district' className="select select-bordered w-full " required>
+                                {...register("district", { required: true })}
+                                name='district' className="select select-bordered w-full " required>
                                 <option disabled selected>Select your District</option>
                                 {
                                     districts?.map(district => <option key={district.id}>
                                         {district.name}
-                                      </option>)
+                                    </option>)
                                 }
                             </select>
                         </div>
@@ -105,13 +180,13 @@ const Register = () => {
                         <div className="form-control">
                             <label className="block font-bold">Upazila</label>
                             <select
-                            {...register("upazila",  {required: true})}
-                             className="select select-bordered w-full " required>
+                                {...register("upazila", { required: true })}
+                                className="select select-bordered w-full " required>
                                 <option disabled selected>Select your Upazila</option>
                                 {
                                     upazilas?.map(district => <option key={district.id}>
                                         {district.name}
-                                      </option>)
+                                    </option>)
                                 }
                             </select>
                         </div>
@@ -122,8 +197,8 @@ const Register = () => {
                                 <span className="label-text">Email</span>
                             </label>
                             <input
-                            {...register("email",  {required: true})}
-                            type="email" placeholder="Enter Your Email" className="input input-bordered" required />
+                                {...register("email", { required: true })}
+                                type="email" placeholder="Enter Your Email" className="input input-bordered" required />
                         </div>
                         {/* Password */}
                         <div className="form-control relative">
@@ -131,8 +206,8 @@ const Register = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input
-                            {...register("password",  {required: true})}
-                            type={showPass ? 'text' : 'password'} placeholder="password" name='password' className="input input-bordered" required />
+                                {...register("password", { required: true })}
+                                type={showPass ? 'text' : 'password'} placeholder="password" name='password' className="input input-bordered" required />
                             <button type='button' onClick={() => setShowPass(!showPass)} className='absolute right-2 top-12 btn btn-xs'>
                                 {
                                     showPass ? <FaEyeSlash /> : <FaEye />
@@ -145,8 +220,8 @@ const Register = () => {
                                 <span className="label-text">Confirm Password</span>
                             </label>
                             <input
-                            {...register("confirmPassword",  {required: true})}
-                            type={showPass ? 'text' : 'password'} placeholder="password" className="input input-bordered" required />
+                                {...register("confirmPassword", { required: true })}
+                                type={showPass ? 'text' : 'password'} placeholder="password" className="input input-bordered" required />
                             <button type='button' onClick={() => setShowPass(!showPass)} className='absolute right-2 top-12 btn btn-xs'>
                                 {
                                     showPass ? <FaEyeSlash /> : <FaEye />
