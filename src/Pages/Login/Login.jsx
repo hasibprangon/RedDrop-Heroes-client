@@ -5,13 +5,37 @@ import animation from '../../../src/assets/Animations/Login Animation.json'
 import { Link } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
-    const { register, handleSubmit } = useForm()
-    const onSubmit = (data) => {
-        console.log(data)
+    const { register, handleSubmit,reset } = useForm();
+    const { handleSignIn, setUser } = useAuth();
 
+    const onSubmit = (data) => {
+        handleSignIn(data?.email, data?.password)
+        .then(result => {
+            const user = result?.user;
+            setUser(user)
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Login Successful",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            reset();
+        })
+        .catch(err => {
+            Swal.fire({
+                position: "top",
+                icon: "error",
+                title: `${err.message}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
     }
     return (
         <div>

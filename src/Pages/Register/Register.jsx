@@ -36,15 +36,13 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         const imageFile = { image: data?.image[0] }
-        console.log(data, data.name);
 
         const res = await axiosPublic.post(imageApi, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         });
-        const image = res?.data?.data?.display_url;
-        console.log(image);
+        const photoUrl = res?.data?.data?.display_url;
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
@@ -67,16 +65,11 @@ const Register = () => {
             });
             return;
         }
-        // const profileData = {
-        //     displayName: data?.name, photoUrl: image
-        // }
-        console.log(data.email, data.password);
         createUser(data?.email, data?.password)
             .then(result => {
-                console.log('User created:', result)
                 const user = result?.user;
                 setUser(user);
-                updateUserProfile({displayName: data?.name, photoUrl: image})
+                updateUserProfile({displayName: data?.name, photoURL: photoUrl})
                     .then(() => {
                         Swal.fire({
                             icon: "success",
