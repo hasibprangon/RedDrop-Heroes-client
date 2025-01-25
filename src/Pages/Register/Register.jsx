@@ -65,18 +65,32 @@ const Register = () => {
             });
             return;
         }
+        const userInfo = {
+            name: data?.name,
+            email: data?.email,
+            photoUrl,
+            role: "donor",
+            bloodGrp: data?.bloodGrp,
+            district:data?.district,
+            upazila: data?.upazila
+        }
         createUser(data?.email, data?.password)
             .then(result => {
                 const user = result?.user;
                 setUser(user);
-                updateUserProfile({displayName: data?.name, photoURL: photoUrl})
+                updateUserProfile({ displayName: data?.name, photoURL: photoUrl })
                     .then(() => {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Registration Successful",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res?.data?.insertedId) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Registration Successful",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
                         reset();
                         navigate('/');
                     })
