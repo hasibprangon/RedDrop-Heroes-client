@@ -2,7 +2,7 @@ import Lottie from 'lottie-react';
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import animation from '../../../src/assets/Animations/Login Animation.json'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
@@ -12,6 +12,8 @@ const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit,reset } = useForm();
     const { handleSignIn, setUser } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation(); 
 
     const onSubmit = (data) => {
         handleSignIn(data?.email, data?.password)
@@ -26,6 +28,7 @@ const Login = () => {
                 timer: 1500
             });
             reset();
+            navigate(location?.state ? location?.state : "/");
         })
         .catch(err => {
             Swal.fire({
@@ -41,7 +44,7 @@ const Login = () => {
         <div>
             <div className="hero bg-base-200 min-h-screen my-5">
                 <Helmet>
-                    <title>Login</title>
+                    <title>Login || RedDrop-Heroes</title>
                 </Helmet>
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">

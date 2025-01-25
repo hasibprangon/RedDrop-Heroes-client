@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Search = () => {
     const [upazilas, setUpazilas] = useState(null);
@@ -29,6 +30,9 @@ const Search = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
+            <Helmet>
+                <title>Search || RedDrop-Heroes</title>
+            </Helmet>
             <div className="bg-red-100 p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold text-red-600 mb-4">Search for Donors</h2>
                 <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-3 gap-4">

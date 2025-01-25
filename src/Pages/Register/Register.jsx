@@ -107,7 +107,7 @@ const Register = () => {
     return (
         <div className="hero p-5 my-5">
             <Helmet>
-                <title>Register</title>
+                <title>Register || RedDrop-Heroes</title>
             </Helmet>
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left lg:w-[500px] md:w-[400px] w-64">

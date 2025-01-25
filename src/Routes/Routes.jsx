@@ -5,6 +5,7 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Search from "../Pages/Search/Search";
 import Error from "../Shared/Error";
+import Blog from "../Pages/Blog/Blog";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
             {
                 path:'/search',
                 element:<Search></Search>
+            },
+            {
+                path:'/blog',
+                element:<Blog></Blog>
             }
         ]
     }
