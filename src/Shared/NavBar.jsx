@@ -40,7 +40,7 @@ const NavBar = () => {
 
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/donationRequest'>Donation Request</NavLink></li>
+        <li><NavLink to='/donationRequests'>Donation Request</NavLink></li>
         <li><NavLink to='/blog'>Blog</NavLink></li>
         {
             user && user?.email ? <button className="text-start ml-3 md:hidden" onClick={handleSignOut}>

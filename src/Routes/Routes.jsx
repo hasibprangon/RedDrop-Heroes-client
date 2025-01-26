@@ -11,6 +11,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Profile from "../Pages/Dashboard/Profile";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import CreateDonationRequest from "../Pages/Dashboard/Donor/CreateDonationRequest";
+import DonationRequests from "../Pages/DonationRequests/DonationRequests ";
 
 export const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
             {
                 path:'/blog',
                 element:<Blog></Blog>
+            },
+            {
+                path:'/donationRequests',
+                element:<DonationRequests></DonationRequests>
             }
         ]
     },
