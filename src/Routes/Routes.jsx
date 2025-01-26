@@ -6,6 +6,9 @@ import Register from "../Pages/Register/Register";
 import Search from "../Pages/Search/Search";
 import Error from "../Shared/Error";
 import Blog from "../Pages/Blog/Blog";
+import Dashboard from "../Layout/Dashboard/Dashboard";
+import PrivateRoutes from "./PrivateRoutes";
+import Profile from "../Pages/Dashboard/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -32,6 +35,17 @@ export const router = createBrowserRouter([
             {
                 path:'/blog',
                 element:<Blog></Blog>
+            }
+        ]
+    },
+    {
+        path:'dashboard',
+        element:<PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
+        errorElement:<Error></Error>,
+        children:[
+            {
+                path:'profile',
+                element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
             }
         ]
     }

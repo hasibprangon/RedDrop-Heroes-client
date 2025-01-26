@@ -103,7 +103,7 @@ const NavBar = () => {
                                             <p className="text-sm text-gray-700 uppercase">{user?.displayName}</p>
                                             {
                                                 user && user?.email &&
-                                                <NavLink>Dashboard</NavLink>
+                                                <NavLink to='/dashboard/profile'>Dashboard</NavLink>
                                             }
                                         </div>
                                         <div className='text-center'>
