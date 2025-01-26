@@ -9,6 +9,8 @@ import Blog from "../Pages/Blog/Blog";
 import Dashboard from "../Layout/Dashboard/Dashboard";
 import PrivateRoutes from "./PrivateRoutes";
 import Profile from "../Pages/Dashboard/Profile";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import CreateDonationRequest from "../Pages/Dashboard/Donor/CreateDonationRequest";
 
 export const router = createBrowserRouter([
     {
@@ -39,10 +41,18 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path:'dashboard',
+        path:'/dashboard',
         element:<PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
         errorElement:<Error></Error>,
         children:[
+            {
+                path:'',
+                element:<DashboardHome></DashboardHome>
+            },
+            {
+                path:"create-donation-request",
+                element:<CreateDonationRequest></CreateDonationRequest>
+            },
             {
                 path:'profile',
                 element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
