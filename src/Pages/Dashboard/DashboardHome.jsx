@@ -1,9 +1,10 @@
 import React from 'react';
+import Welcome from '../../Shared/Welcome';
 
 const DashboardHome = () => {
     return (
         <div>
-            this is dashboard home
+            <Welcome></Welcome>
         </div>
     );
 };
