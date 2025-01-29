@@ -4,7 +4,7 @@ import useAxiosPublic from './useAxiosPublic';
 const useDonationRequests = ({ email, page, limit, status }) => {
     const axiosPublic = useAxiosPublic();
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['donationRequests', email, page, limit, status],
         queryFn: async () => {
             const response = await axiosPublic.get(`/requests/${email}`, {
@@ -19,7 +19,8 @@ const useDonationRequests = ({ email, page, limit, status }) => {
         data: data?.requests || [], 
         total: data?.total || 0, 
         isLoading, 
-        isError 
+        isError,
+        refetch
     };
 };
 

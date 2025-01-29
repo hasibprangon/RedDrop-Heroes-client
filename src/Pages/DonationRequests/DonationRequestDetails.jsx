@@ -17,7 +17,8 @@ const requestDetails = () => {
     };
     const donorInfo = {
         donorEmail: profile?.email,
-        donorName: profile?.name
+        donorName: profile?.name,
+        donationStatus: 'Inprogress'
     }
 
     const handleConfirmDonation = () => {
