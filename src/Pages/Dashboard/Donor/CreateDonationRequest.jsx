@@ -8,7 +8,6 @@ const CreateDonationRequest = () => {
     const [districts, setDistricts] = useState(null);
     const { profile } = useProfile()
     const axiosPublic = useAxiosPublic();
-    console.log(profile?.email);
 
     useEffect(() => {
         fetch('/Districts.json')
