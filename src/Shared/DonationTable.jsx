@@ -6,7 +6,6 @@ import { MdDeleteForever } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 const DonationTable = ({ data, refetch }) => {
-
     const axiosSecure = useAxiosSecure();
 
     const doneStatus = {
@@ -69,6 +68,35 @@ const DonationTable = ({ data, refetch }) => {
         });
     }
 
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+
+                axiosSecure.delete(`/request/${id}`)
+                    .then(res => {
+                        refetch()
+                        console.log(res?.data);
+                        if (res.data.deletedCount > 0) {
+                              Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                              });
+                        }
+                    })
+            }
+        });
+    }
+
     return (
         <div>
             <div className="overflow-x-auto">
@@ -89,8 +117,8 @@ const DonationTable = ({ data, refetch }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data?.map((info, idx) =>
-                            <tr>
+                        {data?.sort((a, b) => new Date(b.donationDate) - new Date(a.donationDate)).slice(0, 3).map((info, idx) =>
+                            <tr key={info?._id}>
                                 <th>
                                     {idx + 1}
                                 </th>
@@ -136,7 +164,9 @@ const DonationTable = ({ data, refetch }) => {
                                 </td>
                                 <td className='flex'>
                                     <button className='btn btn-sm text-base bg-green-500 text-white'><FaEdit></FaEdit></button>
-                                    <button className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever></MdDeleteForever></button>
+                                    <button
+                                        onClick={() => handleDelete(info?._id)}
+                                        className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever></MdDeleteForever></button>
                                 </td>
                                 <td>
                                     <Link className='btn btn-sm btn-outline' to={`/donationRequestDetails/${info?._id}`}>View Details</Link>
