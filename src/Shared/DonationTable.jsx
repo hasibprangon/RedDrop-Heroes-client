@@ -86,11 +86,11 @@ const DonationTable = ({ data, refetch }) => {
                         refetch()
                         console.log(res?.data);
                         if (res.data.deletedCount > 0) {
-                              Swal.fire({
+                            Swal.fire({
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
                                 icon: "success"
-                              });
+                            });
                         }
                     })
             }
@@ -163,7 +163,9 @@ const DonationTable = ({ data, refetch }) => {
                                     <span className="badge badge-ghost badge-sm">{info?.donorEmail}</span>
                                 </td>
                                 <td className='flex'>
-                                    <button className='btn btn-sm text-base bg-green-500 text-white'><FaEdit></FaEdit></button>
+                                    <button className='btn btn-sm text-base bg-green-500 text-white'>
+                                        <Link to={`updateDonation/${info?._id}`}><FaEdit></FaEdit></Link>
+                                    </button>
                                     <button
                                         onClick={() => handleDelete(info?._id)}
                                         className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever></MdDeleteForever></button>

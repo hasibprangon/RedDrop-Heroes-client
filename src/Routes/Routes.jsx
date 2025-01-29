@@ -14,6 +14,7 @@ import CreateDonationRequest from "../Pages/Dashboard/Donor/CreateDonationReques
 import DonationRequests from "../Pages/DonationRequests/DonationRequests ";
 import DonationRequestDetails from "../Pages/DonationRequests/DonationRequestDetails";
 import MyDonationRequests from "../Pages/Dashboard/Donor/MyDonationRequests";
+import UpdateDonationRequest from "../Pages/Dashboard/Donor/UpdateDonationRequest";
 
 export const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
             {
                 path:'profile',
                 element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
+            },
+            {
+                path:'updateDonation/:id',
+                element:<UpdateDonationRequest></UpdateDonationRequest>
             }
         ]
     }
