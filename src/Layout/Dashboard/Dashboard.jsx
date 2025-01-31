@@ -32,19 +32,19 @@ const Dashboard = () => {
 
                     {/* donor dashboard */}
                     {isDonor && (
-                         <>
-                         <li><NavLink
-                             to='/dashboard/create-donation-request'
-                             className={({ isActive }) =>
-                                 isActive ? 'text-white font-bold' : ''
-                             }>Create Donation Request</NavLink></li>
+                        <>
+                            <li><NavLink
+                                to='/dashboard/create-donation-request'
+                                className={({ isActive }) =>
+                                    isActive ? 'text-white font-bold' : ''
+                                }>Create Donation Request</NavLink></li>
 
-                         <li><NavLink
-                             to='/dashboard/my-donation-request'
-                             className={({ isActive }) =>
-                                 isActive ? 'text-white font-bold' : ''
-                             }>My Donation Request</NavLink></li>
-                     </>
+                            <li><NavLink
+                                to='/dashboard/my-donation-request'
+                                className={({ isActive }) =>
+                                    isActive ? 'text-white font-bold' : ''
+                                }>My Donation Request</NavLink></li>
+                        </>
                     )}
 
                     {/* admin routes */}
@@ -60,15 +60,33 @@ const Dashboard = () => {
                             <li><NavLink
                                 to='/dashboard/all-blood-donation-request'
                                 className={({ isActive }) =>
-                                    isActive ? 'text-white font-bold' : ''
+                                isActive ? 'text-white font-bold' : ''
                                 }>All Blood Donation Requests</NavLink></li>
 
                             <li><NavLink
                                 // to='/dashboard/my-donation-request'
                                 className={({ isActive }) =>
                                     isActive ? 'text-white font-bold' : ''
-                                }>Admin-2</NavLink></li>
+                                }>Content Management</NavLink></li>
                         </>
+                    }
+
+                    {/* admin and volunteer shared routes */}
+                    {
+                        (isVolunteer) &&
+                        <>
+                            <li><NavLink
+                                to='/dashboard/all-blood-donation-request'
+                                className={({ isActive }) =>
+                                    isActive ? 'text-white font-bold' : ''
+                                }>All Blood Donation Requests</NavLink></li>
+                            <li><NavLink
+                                to='/dashboard/create-donation-request'
+                                className={({ isActive }) =>
+                                    isActive ? 'text-white font-bold' : ''
+                                }>Create Donation Request</NavLink></li>
+                        </>
+
                     }
 
 

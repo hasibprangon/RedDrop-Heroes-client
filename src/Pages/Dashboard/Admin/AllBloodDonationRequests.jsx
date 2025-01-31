@@ -3,18 +3,47 @@ import useRequest from '../../../Hooks/useRequest';
 import { Link } from 'react-router-dom';
 import { FaEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
+import useVolunteer from '../../../Hooks/useVolunteer';
 
 const AllBloodDonationRequests = () => {
     const [request] = useRequest();
     const [status, setStatus] = useState('');
+
+    const [isVolunteer, isVolunteerLoading] = useVolunteer();
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/request/${id}`)
+                    .then(res => {
+                        if (res?.data?.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+
+            }
+        });
+
+    }
 
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     };
 
     // Apply filtering based on the selected status
-    const filteredRequests = status 
-        ? request.filter(req => req.donationStatus.toLowerCase() === status.toLowerCase()) 
+    const filteredRequests = status
+        ? request.filter(req => req.donationStatus.toLowerCase() === status.toLowerCase())
         : request;
 
     return (
@@ -45,7 +74,7 @@ const AllBloodDonationRequests = () => {
                         <th>Blood Group</th>
                         <th>Donation Status</th>
                         <th>Donor Information</th>
-                        <th>Action</th>
+                        {!isVolunteer && <th>Action</th>}
                         <th>View Details</th>
                     </tr>
                 </thead>
@@ -85,14 +114,15 @@ const AllBloodDonationRequests = () => {
                                 <br />
                                 <span className="badge badge-ghost badge-sm">{request?.donorEmail}</span>
                             </td>
-                            <td className='flex'>
+                            {!isVolunteer && <td className='flex'>
                                 <button className='btn btn-sm text-base bg-green-500 text-white'>
                                     <Link to={`updateDonation/${request?._id}`}><FaEdit /></Link>
                                 </button>
                                 <button
                                     onClick={() => handleDelete(request?._id)}
-                                    className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever /></button>
-                            </td>
+                                    className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever />
+                                </button>
+                            </td>}
                             <td>
                                 <Link className='btn btn-sm btn-outline' to={`/donationRequestDetails/${request?._id}`}>View Details</Link>
                             </td>

@@ -4,12 +4,41 @@ import useDonationRequests from '../../../Hooks/useDonationRequests';
 import { Link } from 'react-router-dom';
 import { FaEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const MyDonationRequests = () => {
     const { user } = useAuth();
     const [page, setPage] = useState(1);
     const [status, setStatus] = useState('');
     const limit = 5;
+    const axiosSecure = useAxiosSecure();
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/request/${id}`)
+                    .then(res => {
+                        if (res?.data?.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+
+            }
+        });
+
+    }
 
 
     const { data: requests, total, isLoading } = useDonationRequests({
@@ -105,7 +134,7 @@ const MyDonationRequests = () => {
                                     </td>
                                     <td className='flex'>
                                         <button className='btn btn-sm text-base bg-green-500 text-white'>
-                                            <Link to={`updateDonation/${request?._id}`}><FaEdit></FaEdit></Link>
+                                            <Link to={`/my-donation-request/updateDonation/${request?._id}`}><FaEdit></FaEdit></Link>
                                         </button>
                                         <button
                                             onClick={() => handleDelete(request?._id)}

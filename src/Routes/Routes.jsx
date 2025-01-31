@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
                 element:<PrivateRoutes><Profile></Profile></PrivateRoutes>
             },
             {
-                path:'updateDonation/:id',
+                path:'my-donation-request/updateDonation/:id',
                 element:<UpdateDonationRequest></UpdateDonationRequest>
             },
             {
