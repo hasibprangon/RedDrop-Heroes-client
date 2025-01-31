@@ -58,10 +58,10 @@ const Dashboard = () => {
                                 }>All Users</NavLink></li>
 
                             <li><NavLink
-                                // to='/dashboard/create-donation-request'
+                                to='/dashboard/all-blood-donation-request'
                                 className={({ isActive }) =>
                                     isActive ? 'text-white font-bold' : ''
-                                }>admin1</NavLink></li>
+                                }>All Blood Donation Requests</NavLink></li>
 
                             <li><NavLink
                                 // to='/dashboard/my-donation-request'
