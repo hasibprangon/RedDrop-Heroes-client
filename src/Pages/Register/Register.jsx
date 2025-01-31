@@ -72,7 +72,8 @@ const Register = () => {
             role: "donor",
             bloodGrp: data?.bloodGrp,
             district:data?.district,
-            upazila: data?.upazila
+            upazila: data?.upazila,
+            status: "active"
         }
         createUser(data?.email, data?.password)
             .then(result => {

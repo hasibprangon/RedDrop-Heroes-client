@@ -11,7 +11,7 @@ const useVolunteer = () => {
         enabled: !loading,
         queryFn: async() => {
             const res = await axiosSecure.get(`/user/volunteer/${user?.email}`)
-            return res?.data.volunteer
+            return res?.data?.volunteer;
         }
     })
     return [isVolunteer, isVolunteerLoading]

@@ -31,24 +31,32 @@ const Dashboard = () => {
                         }>Profile</NavLink></li>
 
                     {/* donor dashboard */}
-                    {isDonor &&
+                    {isDonor && (
+                         <>
+                         <li><NavLink
+                             to='/dashboard/create-donation-request'
+                             className={({ isActive }) =>
+                                 isActive ? 'text-white font-bold' : ''
+                             }>Create Donation Request</NavLink></li>
+
+                         <li><NavLink
+                             to='/dashboard/my-donation-request'
+                             className={({ isActive }) =>
+                                 isActive ? 'text-white font-bold' : ''
+                             }>My Donation Request</NavLink></li>
+                     </>
+                    )}
+
+                    {/* admin routes */}
+                    {isAdmin &&
                         <>
-                            <li><NavLink
-                                to='/dashboard/create-donation-request'
-                                className={({ isActive }) =>
-                                    isActive ? 'text-white font-bold' : ''
-                                }>Create Donation Request</NavLink></li>
 
                             <li><NavLink
-                                to='/dashboard/my-donation-request'
+                                to="/dashboard/all-users"
                                 className={({ isActive }) =>
                                     isActive ? 'text-white font-bold' : ''
-                                }>My Donation Request</NavLink></li>
-                        </>
-                    }
+                                }>All Users</NavLink></li>
 
-                    {(isAdmin || isVolunteer) &&
-                        <>
                             <li><NavLink
                                 // to='/dashboard/create-donation-request'
                                 className={({ isActive }) =>
@@ -72,13 +80,6 @@ const Dashboard = () => {
                             <FcHome className='text-xl'>
                             </FcHome>
                             <span className='text-xl'>Home</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/all-users">
-                            <FcHome className='text-xl'>
-                            </FcHome>
-                            <span className='text-xl'>All Users</span>
                         </NavLink>
                     </li>
                 </ul>
