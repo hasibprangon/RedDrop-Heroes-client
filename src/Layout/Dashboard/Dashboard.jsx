@@ -10,7 +10,6 @@ const Dashboard = () => {
     const [isDonor] = useDonor();
     const [isAdmin, isLoading] = useAdmin();
     const [isVolunteer, isVolunteerLoading] = useVolunteer()
-    console.log(isAdmin);
     return (
         <div className='flex'>
             <aside className='w-64 min-h-screen bg-red-500'>

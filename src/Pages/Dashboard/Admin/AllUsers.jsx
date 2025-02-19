@@ -89,6 +89,36 @@ const AllUsers = () => {
             }
         });
     }
+    const makeDonor = {
+        role: "donor"
+    }
+
+    const handleMakeDonor = (user) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to make this user a volunteer!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Make Donor"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/user/${user?._id}`, makeDonor)
+                    .then(res => {
+                        refetch();
+                        if (res?.data?.modifiedCount > 0) {
+                            Swal.fire({
+                                title: "Success!",
+                                text: `You have successfully assigned ${user?.name} to volunteer`,
+                                icon: "success"
+                            });
+                        }
+                    })
+
+            }
+        });
+    }
 
     const blockUser = {
         status: "blocked"
@@ -223,9 +253,18 @@ const AllUsers = () => {
                                                 <summary className="btn btn-sm btn-outline text-xl m-1">
                                                     <BsThreeDotsVertical></BsThreeDotsVertical></summary>
                                                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                                    <li><a onClick={() => handleMakeAdmin(user)} >Make Admin</a></li>
-                                                    <li><a onClick={() => handleMakeVolunteer(user)}>Make Volunteer</a></li>
-                                                    <li><a onClick={() => handleMakeDonor(user)}>Make Donor</a></li>
+                                                    {user?.role === "donor" && (
+                                                        <>
+                                                            <li><a onClick={() => handleMakeVolunteer(user)}>Make Volunteer</a></li>
+                                                            <li><a onClick={() => handleMakeAdmin(user)}>Make Admin</a></li>
+                                                        </>
+                                                    )}
+                                                    {user?.role === "volunteer" && (
+                                                        <>
+                                                            <li><a onClick={() => handleMakeDonor(user)}>Make Donor</a></li>
+                                                            <li><a onClick={() => handleMakeAdmin(user)}>Make Admin</a></li>
+                                                        </>
+                                                    )}
                                                 </ul>
                                             </details>}
                                     </td>

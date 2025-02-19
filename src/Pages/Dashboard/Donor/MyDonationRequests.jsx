@@ -134,7 +134,7 @@ const MyDonationRequests = () => {
                                     </td>
                                     <td className='flex'>
                                         <button className='btn btn-sm text-base bg-green-500 text-white'>
-                                            <Link to={`/my-donation-request/updateDonation/${request?._id}`}><FaEdit></FaEdit></Link>
+                                            <Link to={`/updateDonation/${request?._id}`}><FaEdit></FaEdit></Link>
                                         </button>
                                         <button
                                             onClick={() => handleDelete(request?._id)}
