@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import img from '../../src/assets/image/siteLogo2.png'
 
 const NavBar = () => {
     const { user, handleSignOut } = useAuth();
@@ -73,7 +74,7 @@ const NavBar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="text-xl text-white">RedDrop-Heroes</a>
+                <img className='w-14 mx-2' src={img} alt="" />
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
