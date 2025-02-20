@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { FaEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
 import useVolunteer from '../../../Hooks/useVolunteer';
+import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const AllBloodDonationRequests = () => {
     const [request] = useRequest();
     const [status, setStatus] = useState('');
-
+    const axiosSecure = useAxiosSecure();
     const [isVolunteer, isVolunteerLoading] = useVolunteer();
     const handleDelete = (id) => {
         Swal.fire({
@@ -116,7 +118,7 @@ const AllBloodDonationRequests = () => {
                             </td>
                             {!isVolunteer && <td className='flex'>
                                 <button className='btn btn-sm text-base bg-green-500 text-white'>
-                                    <Link to={`updateDonation/${request?._id}`}><FaEdit /></Link>
+                                    <Link to={`/dashboard/updateDonation/${request?._id}`}><FaEdit /></Link>
                                 </button>
                                 <button
                                     onClick={() => handleDelete(request?._id)}
