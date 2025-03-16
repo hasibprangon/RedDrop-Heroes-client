@@ -9,7 +9,9 @@ const Default = () => {
     return (
         <div className='font-prata'>
             {noHeaderFooter || <NavBar></NavBar>}
-            <Outlet></Outlet>
+            <div className='min-h-[calc(100vh-180px)]'>
+                <Outlet></Outlet>
+            </div>
             {noHeaderFooter || <Footer></Footer>}
         </div>
     );

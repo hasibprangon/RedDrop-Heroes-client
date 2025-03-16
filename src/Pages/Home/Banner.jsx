@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, easeInOut } from "framer-motion";
 import heroImg from "../../../src/assets/Animations/redDrop-heroes-motion.gif";
 import useAuth from "../../Hooks/useAuth";
+import { Typewriter } from "react-simple-typewriter";
 
 const Banner = () => {
   const { user } = useAuth();
@@ -13,9 +14,17 @@ const Banner = () => {
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg">
           RedDrop Heroes: Save Lives, Be a Hero!
         </h1>
-        <p className="mt-4 text-lg md:text-xl opacity-90">
-          Join our mission to connect life-saving blood donors with those in need. Every drop counts!
-        </p>
+        <motion.p className="mt-4 text-lg md:text-xl opacity-90">
+         <Typewriter
+            words={[' Join our mission to connect life-saving blood donors with those in need. Every drop counts!']}
+            loop={true}
+            cursor
+            cursorStyle="|"
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1000}
+         ></Typewriter>
+        </motion.p>
 
         {/* Call to Action Buttons */}
         <div className="mt-8 flex flex-col items-center md:items-start gap-4 md:flex-row">

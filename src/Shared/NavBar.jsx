@@ -45,13 +45,13 @@ const NavBar = () => {
     const links = (
         <>
             <li>
-                <NavLink to="/">Home</NavLink>
+                <NavLink className='text-white' to="/">Home</NavLink>
             </li>
             <li>
-                <NavLink to="/donationRequests">Donation Request</NavLink>
+                <NavLink className='text-white'  to="/donationRequests">Donation Request</NavLink>
             </li>
             <li>
-                <NavLink to="/blog">Blog</NavLink>
+                <NavLink className='text-white' to="/blog">Blog</NavLink>
             </li>
             {user && user?.email ? (
                 <button className="text-start ml-3 md:hidden" onClick={handleSignOut}>
