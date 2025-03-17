@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FcHome } from 'react-icons/fc';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import useDonor from '../../Hooks/useDonor';
 import useAdmin from '../../Hooks/useAdmin';
 import useVolunteer from '../../Hooks/useVolunteer';
+import { HiMenu, HiX } from "react-icons/hi";
 
 const Dashboard = () => {
     const location = useLocation();
     const [isDonor] = useDonor();
     const [isAdmin, isLoading] = useAdmin();
     const [isVolunteer, isVolunteerLoading] = useVolunteer()
+    const [isOpen, setIsOpen] = useState(false);
     return (
         <div className='flex'>
-            <aside className='w-64 min-h-screen bg-red-500'>
+            <aside className={`w-64 min-h-screen bg-red-500 p-4 fixed md:relative z-50 transition-all duration-300 ${isOpen ? "w-64" : "w-2 md:w-64"
+                } overflow-hidden md:overflow-visible`}>
+                {/* Sidebar Toggle Button (Mobile) */}
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="absolute top-2 right-0 md:hidden text-white text-2xl"
+                >
+                    {isOpen ? <HiX /> : <HiMenu />}
+                </button>
                 <ul className='menu p-4'>
                     <li><NavLink
                         to='/dashboard'
@@ -59,14 +69,14 @@ const Dashboard = () => {
                             <li><NavLink
                                 to='/dashboard/all-blood-donation-request'
                                 className={({ isActive }) =>
-                                isActive ? 'text-white font-bold' : ''
+                                    isActive ? 'text-white font-bold' : ''
                                 }>All Blood Donation Requests</NavLink></li>
 
-                            <li><NavLink
+                            {/* <li><NavLink
                                 // to='/dashboard/my-donation-request'
                                 className={({ isActive }) =>
                                     isActive ? 'text-white font-bold' : ''
-                                }>Content Management</NavLink></li>
+                                }>Content Management</NavLink></li> */}
                         </>
                     }
 

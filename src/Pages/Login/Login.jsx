@@ -42,18 +42,18 @@ const Login = () => {
     }
     return (
         <div>
-            <div className="hero bg-base-200 min-h-screen my-5">
+            <div className="hero bg-red-50 min-h-screen my-5">
                 <Helmet>
                     <title>Login || RedDrop-Heroes</title>
                 </Helmet>
-                <div className="hero-content flex-col lg:flex-row-reverse">
+                <div className="hero-content bg-red-100 flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
                         <Lottie
                             animationData={animation}
                             loop={true}
                         ></Lottie>
                     </div>
-                    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                    <div className="card bg-red-50 w-full max-w-sm shrink-0 shadow-2xl">
                         <h1 className="text-4xl text-center mt-5 font-bold">Login now!</h1>
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                             <div className="form-control">
@@ -74,7 +74,7 @@ const Login = () => {
                                 </button>
                             </div>
                             <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="bg-white text-red-600 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 hover:scale-105 transition duration-300">Login</button>
                             </div>
                             <p className='text-center font-semibold mb-3'>New To this website? Please <Link to='/register' className='text-blue-500 font-bold'>Register</Link></p>
                         </form>

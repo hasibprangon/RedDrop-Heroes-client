@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 const useVolunteer = () => {
     const {user, loading} = useAuth();
     const axiosSecure = useAxiosSecure();
-    const {data: isVolunteer = false, isPending: isVolunteerLoading} = useQuery({
+    const {data: isVolunteer = false, isPending: isVolunteerLoading, refetch} = useQuery({
         queryKey:[user?.email, 'isVolunteer'],
         enabled: !loading,
         queryFn: async() => {
@@ -14,7 +14,7 @@ const useVolunteer = () => {
             return res?.data?.volunteer;
         }
     })
-    return [isVolunteer, isVolunteerLoading]
+    return [isVolunteer, isVolunteerLoading, refetch]
 };
 
 export default useVolunteer;

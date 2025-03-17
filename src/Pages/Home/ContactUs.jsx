@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import Swal from 'sweetalert2';
+import img from '../../assets/image/RedDrop-Heroes.png'
 
 const ContactUs = () => {
     const formRef = useRef();
@@ -119,6 +120,7 @@ const ContactUs = () => {
                         </form>
                     </div>
                     <div className="flex flex-col justify-center items-center bg-gray-800 text-white rounded-xl p-8 shadow-xl transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                        <img src={img} className='h-[300px] rounded-xl' alt="" />
                         <h3 className="text-2xl font-semibold mb-4">Contact Details</h3>
                         <p className="text-lg mb-6 text-center">
                             Feel free to reach out if you have any questions or need assistance.

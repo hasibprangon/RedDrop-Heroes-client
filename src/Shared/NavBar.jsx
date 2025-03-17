@@ -57,11 +57,7 @@ const NavBar = () => {
                 <button className="text-start ml-3 md:hidden" onClick={handleSignOut}>
                     Logout
                 </button>
-            ) : (
-                <li>
-                    <NavLink to="/login">Login</NavLink>
-                </li>
-            )}
+            ) : ''}
         </>
     );
 

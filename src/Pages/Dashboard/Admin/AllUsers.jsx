@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 
 const AllUsers = () => {
     const axiosSecure = useAxiosSecure();
-    const { data: users = [], refetch } = useQuery({
+    const { data: users = [], refetch, isLoading } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users');
@@ -22,15 +22,11 @@ const AllUsers = () => {
         setStatusFilter(event.target.value);
     };
 
-    // Filter users based on selected status
     const filteredUsers = users.filter(user =>
         statusFilter === "all" ? true : user.status === statusFilter
     );
 
-    const makeAdmin = {
-        role: "admin"
-    }
-
+    const makeAdmin = { role: "admin" };
     const handleMakeAdmin = (user) => {
         Swal.fire({
             title: "Are you sure?",
@@ -48,21 +44,16 @@ const AllUsers = () => {
                             refetch();
                             Swal.fire({
                                 title: "Success",
-                                text: `You have successfully created ${user?.name} to admin`,
+                                text: `${user?.name} has been made an admin`,
                                 icon: "success"
                             });
                         }
                     })
-
             }
         });
-    }
+    };
 
-    const makeVolunteer = {
-        role: "volunteer"
-    }
-
-
+    const makeVolunteer = { role: "volunteer" };
     const handleMakeVolunteer = (user) => {
         Swal.fire({
             title: "Are you sure?",
@@ -80,23 +71,20 @@ const AllUsers = () => {
                         if (res?.data?.modifiedCount > 0) {
                             Swal.fire({
                                 title: "Success!",
-                                text: `You have successfully assigned ${user?.name} to volunteer`,
+                                text: `${user?.name} has been made a volunteer`,
                                 icon: "success"
                             });
                         }
                     })
-
             }
         });
-    }
-    const makeDonor = {
-        role: "donor"
-    }
+    };
 
+    const makeDonor = { role: "donor" };
     const handleMakeDonor = (user) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You want to make this user a volunteer!",
+            text: "You want to make this user a donor!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -110,20 +98,16 @@ const AllUsers = () => {
                         if (res?.data?.modifiedCount > 0) {
                             Swal.fire({
                                 title: "Success!",
-                                text: `You have successfully assigned ${user?.name} to volunteer`,
+                                text: `${user?.name} has been made a donor`,
                                 icon: "success"
                             });
                         }
                     })
-
             }
         });
-    }
-
-    const blockUser = {
-        status: "blocked"
     };
 
+    const blockUser = { status: "blocked" };
     const handleBlockUser = (user) => {
         Swal.fire({
             title: "Are you sure?",
@@ -141,19 +125,16 @@ const AllUsers = () => {
                         if (res?.data?.modifiedCount > 0) {
                             Swal.fire({
                                 title: "Success",
-                                text: `You block ${user?.name} `,
+                                text: `${user?.name} has been blocked`,
                                 icon: "success"
                             });
                         }
                     })
             }
         });
-    }
-
-    const unblockUser = {
-        status: "active"
     };
 
+    const unblockUser = { status: "active" };
     const handleUnblockUser = (user) => {
         Swal.fire({
             title: "Are you sure?",
@@ -162,7 +143,7 @@ const AllUsers = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, unblock"
+            confirmButtonText: "Yes, Unblock"
         }).then((result) => {
             if (result.isConfirmed) {
                 axiosSecure.patch(`/user/status/${user?._id}`, unblockUser)
@@ -171,43 +152,41 @@ const AllUsers = () => {
                         if (res?.data?.modifiedCount > 0) {
                             Swal.fire({
                                 title: "Success!",
-                                text: `You unblocked ${user?.name}`,
+                                text: `${user?.name} has been unblocked`,
                                 icon: "success"
                             });
                         }
                     })
-
             }
         });
-    }
+    };
 
     return (
         <div>
             <Helmet>
                 <title>All Users || RedDrop-Heroes</title>
             </Helmet>
-            <div className='flex justify-evenly mb-5'>
-                <h2 className="text-3xl">All Users</h2>
-                <h2 className="text-3xl">Total Users: {users?.length}</h2>
-                <select
-                    value={statusFilter}
-                    onChange={handleFilterChange}
-                    className="select select-bordered w-40"
-                >
-                    <option value="all">All Users</option>
-                    <option value="active">Active</option>
-                    <option value="blocked">Blocked</option>
-                </select>
+            <div className="flex justify-between items-center mb-5">
+                <h2 className="text-3xl font-semibold">All Users</h2>
+                <div className="flex items-center gap-4">
+                    <h2 className="text-2xl">Total Users: {users?.length}</h2>
+                    <select
+                        value={statusFilter}
+                        onChange={handleFilterChange}
+                        className="select select-bordered w-40"
+                    >
+                        <option value="all">All Users</option>
+                        <option value="active">Active</option>
+                        <option value="blocked">Blocked</option>
+                    </select>
+                </div>
             </div>
 
             <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
+                <table className="table table-zebra w-full">
                     <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
+                        <tr className="bg-gray-100">
+                            <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -217,23 +196,25 @@ const AllUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            filteredUsers.map((user, index) =>
-                                <tr
-                                    key={user?._id}
-                                >
-                                    <th>
-                                        {index + 1}
-                                    </th>
+                        {isLoading ? (
+                            <tr>
+                                <td colSpan="7" className="text-center py-4">Loading...</td>
+                            </tr>
+                        ) : (
+                            filteredUsers.map((user, index) => (
+                                <tr key={user?._id} className="border-b hover:bg-gray-50">
+                                    <td>{index + 1}</td>
                                     <td>
                                         <div className="flex items-center gap-3">
                                             <div className="avatar relative">
                                                 <div className="mask mask-squircle h-12 w-12">
-                                                    <img
-                                                        src={user?.photoUrl}
-                                                        alt="Avatar Tailwind CSS Component" />
+                                                    <img src={user?.photoUrl} alt="User Avatar" />
                                                 </div>
-                                                <span className={`${user?.status === "active" ? 'text-green-500' : ''} text-xl absolute -top-1 -left-1`}><GoDotFill></GoDotFill></span>
+                                                <span
+                                                    className={`${user?.status === "active" ? 'text-green-500' : ''} text-xl absolute -top-1 -left-1`}
+                                                >
+                                                    <GoDotFill />
+                                                </span>
                                             </div>
                                             <div>
                                                 <div className="font-bold">{user?.name}</div>
@@ -241,17 +222,14 @@ const AllUsers = () => {
                                             </div>
                                         </div>
                                     </td>
+                                    <td>{user?.email}</td>
+                                    <td>{user?.role}</td>
                                     <td>
-                                        {user?.email}
-                                    </td>
-                                    <td>
-                                        {user?.role}
-                                    </td>
-                                    <td>
-                                        {user?.role === "admin" ? '' :
+                                        {user?.role !== "admin" && (
                                             <details className="dropdown">
                                                 <summary className="btn btn-sm btn-outline text-xl m-1">
-                                                    <BsThreeDotsVertical></BsThreeDotsVertical></summary>
+                                                    <BsThreeDotsVertical />
+                                                </summary>
                                                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                     {user?.role === "donor" && (
                                                         <>
@@ -266,29 +244,34 @@ const AllUsers = () => {
                                                         </>
                                                     )}
                                                 </ul>
-                                            </details>}
+                                            </details>
+                                        )}
                                     </td>
                                     <td>{user?.status}</td>
-
                                     <td>
-                                        {user?.role === "admin" ? '' :
+                                        {user?.role !== "admin" && (
                                             <>
                                                 <button
                                                     onClick={() => handleBlockUser(user)}
-                                                    className='btn btn-xs btn-outline mr-2 btn-error'>Block</button>
+                                                    className="btn btn-xs btn-outline btn-error mr-2"
+                                                >
+                                                    Block
+                                                </button>
                                                 <button
                                                     onClick={() => handleUnblockUser(user)}
-                                                    className='btn btn-xs btn-outline mr-2 btn-success'>Unblock</button>
+                                                    className="btn btn-xs btn-outline btn-success"
+                                                >
+                                                    Unblock
+                                                </button>
                                             </>
-                                        }
+                                        )}
                                     </td>
-
-                                </tr>)
-                        }
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
-
         </div>
     );
 };

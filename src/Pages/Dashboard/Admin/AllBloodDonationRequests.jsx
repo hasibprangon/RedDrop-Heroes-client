@@ -8,10 +8,41 @@ import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const AllBloodDonationRequests = () => {
-    const [request] = useRequest();
+    const [request, refetch] = useRequest();
     const [status, setStatus] = useState('');
     const axiosSecure = useAxiosSecure();
-    const [isVolunteer, isVolunteerLoading] = useVolunteer();
+    const [isVolunteer] = useVolunteer();
+
+    // Function to handle "Done" status update
+    const handleDone = (id) => {
+        axiosSecure.patch(`/request/${id}`, { donationStatus: 'Done' })
+            .then(res => {
+                if (res?.data?.modifiedCount > 0) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Donation status updated to Done.',
+                        icon: 'success'
+                    });
+                    refetch(); // Automatically refetch the data to update UI
+                }
+            });
+    };
+
+    // Function to handle "Cancel" status update
+    const handleCancel = (id) => {
+        axiosSecure.patch(`/request/${id}`, { donationStatus: 'Cancel' })
+            .then(res => {
+                if (res?.data?.modifiedCount > 0) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Donation status updated to Cancel.',
+                        icon: 'success'
+                    });
+                    refetch(); // Automatically refetch the data to update UI
+                }
+            });
+    };
+
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -28,16 +59,15 @@ const AllBloodDonationRequests = () => {
                         if (res?.data?.deletedCount > 0) {
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "Your file has been deleted.",
+                                text: "Your request has been deleted.",
                                 icon: "success"
                             });
+                            refetch(); // Automatically refetch the data to update UI
                         }
                     })
-
             }
         });
-
-    }
+    };
 
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
@@ -50,7 +80,7 @@ const AllBloodDonationRequests = () => {
 
     return (
         <div className="overflow-x-auto">
-            <h2 className='text-2xl font-bold mb-5 text-center'>All Blood Donation Requests</h2>
+            <h2 className="text-2xl font-bold mb-5 text-center">All Blood Donation Requests</h2>
             <div className="form-control mb-4 w-full max-w-xs">
                 <label className="label">
                     <span className="label-text">Filter by Status:</span>
@@ -67,7 +97,7 @@ const AllBloodDonationRequests = () => {
                     <option value="Cancel">Canceled</option>
                 </select>
             </div>
-            <table className="table">
+            <table className="table table-zebra w-full table-auto">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -112,21 +142,29 @@ const AllBloodDonationRequests = () => {
                                 )}
                             </td>
                             <td>
-                                <span className='text-sm font-bold'> {request?.donorName}</span>
+                                <span className="text-sm font-bold">{request?.donorName}</span>
                                 <br />
                                 <span className="badge badge-ghost badge-sm">{request?.donorEmail}</span>
                             </td>
-                            {!isVolunteer && <td className='flex'>
-                                <button className='btn btn-sm text-base bg-green-500 text-white'>
-                                    <Link to={`/dashboard/updateDonation/${request?._id}`}><FaEdit /></Link>
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(request?._id)}
-                                    className='btn btn-sm text-base bg-red-500 text-white'><MdDeleteForever />
-                                </button>
-                            </td>}
+                            {!isVolunteer && (
+                                <td className="flex">
+                                    <button className="btn btn-sm text-base bg-green-500 text-white">
+                                        <Link to={`/dashboard/updateDonation/${request?._id}`}>
+                                            <FaEdit />
+                                        </Link>
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(request?._id)}
+                                        className="btn btn-sm text-base bg-red-500 text-white"
+                                    >
+                                        <MdDeleteForever />
+                                    </button>
+                                </td>
+                            )}
                             <td>
-                                <Link className='btn btn-sm btn-outline' to={`/donationRequestDetails/${request?._id}`}>View Details</Link>
+                                <Link className="btn btn-sm btn-outline" to={`/donationRequestDetails/${request?._id}`}>
+                                    View Details
+                                </Link>
                             </td>
                         </tr>
                     ))}
