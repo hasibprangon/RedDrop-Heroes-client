@@ -15,7 +15,7 @@ const DonationRequests = () => {
     return (
         <div className="min-h-screen bg-red-50 py-10">
             <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center mb-8">Blood Donation Requests</h1>
+                <h1 className="text-3xl font-bold text-center mb-8 text-red-600">Blood Donation Requests</h1>
                 <div data-aos="fade-up" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {request.map((request) => (
                         <motion.div
@@ -27,7 +27,7 @@ const DonationRequests = () => {
                             className="bg-white p-6 shadow-md rounded-lg flex flex-col justify-between hover:shadow-xl transition-all duration-300 hover:scale-105 "
                         >
                             <div>
-                                <h2 className="text-lg font-semibold mb-2">
+                                <h2 className="text-lg text-black font-semibold mb-2">
                                     Recipient: {request.recipientName}
                                 </h2>
                                 <p className="text-sm text-gray-700">
