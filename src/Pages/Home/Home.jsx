@@ -8,16 +8,18 @@ import DonationRequests from '../DonationRequests/DonationRequests ';
 import Blog from '../Blog/Blog';
 import Testimonials from './Testimonials';
 import FAQ from './FAQ';
+import { useOutletContext } from "react-router-dom"; 
 
 const Home = () => {
+    const { theme, handleTheme } = useOutletContext();
     return (
         <div>
             <Helmet>
                 <title>Home || RedDrop-Heroes</title>
             </Helmet>
-           <Banner></Banner>
-           <About></About>
-           <ContactUs></ContactUs>
+           <Banner theme={theme} handleTheme={handleTheme} ></Banner>
+           <About theme={theme}></About>
+           <ContactUs theme={theme}></ContactUs>
            <Featured></Featured>
            <DonationRequests></DonationRequests>
            <Blog></Blog>

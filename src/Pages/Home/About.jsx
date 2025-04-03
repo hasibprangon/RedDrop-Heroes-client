@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const About = () => {
+const About = ({ theme }) => {
   return (
-    <section className="py-12 px-6 mt-14 bg-red-50">
+    <section className={`py-12 px-6 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-red-50 text-black'}`}>
       {/* Header Section */}
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-red-700 border-b-4 border-red-500 inline-block pb-2">
+        <h2 className="text-2xl md:text-4xl font-extrabold leading-tight drop-shadow-lg">
           About RedDrop-Heroes
         </h2>
-        <p className="mt-6 text-lg text-gray-700">
+        <p className={`mt-6 text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
           **RedDrop-Heroes** is a platform dedicated to connecting blood donors with those in need. By joining our community, you can become a life-saving hero and help patients battling illnesses, injuries, and emergencies requiring blood transfusions.
         </p>
       </div>
@@ -36,24 +36,26 @@ const About = () => {
         ].map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-lg border-l-4 border-red-500 hover:shadow-xl transition-all duration-300"
+            className={`bg-white rounded-lg shadow-lg border-l-4 ${theme === 'dark' ? 'border-red-500 bg-gray-700' : 'border-red-500 bg-white'} hover:shadow-xl transition-all duration-300`}
           >
-            <h3 className="text-xl border-b p-4 font-semibold text-red-700">{item.title}</h3>
-            <p className="mt-3 p-4 bg-red-300 text-gray-600">{item.text}</p>
+            <h3 className={`text-xl border-b p-4 font-semibold ${theme === 'dark' ? 'text-red-500' : 'text-red-700'}`}>{item.title}</h3>
+            <p className={`mt-3 p-4 ${theme === 'dark' ? 'bg-gray-800 text-gray-300' : 'bg-red-300 text-gray-600'}`}>{item.text}</p>
           </div>
         ))}
       </div>
 
       {/* Call to Action */}
       <div className="mt-16 text-center">
-        <h3 className="text-2xl font-bold text-red-600">Become a Hero. Donate Blood.</h3>
-        <p className="text-lg text-gray-700 mt-4">
+        <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'text-red-500' : 'text-red-600'}`}>Become a Hero. Donate Blood.</h3>
+        <p className={`text-lg mt-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
           Every drop counts. Join the **RedDrop-Heroes** community today, and make a life-changing impact by donating blood.
         </p>
         <Link to="/login">
           <button
             aria-label="Join as a donor"
-            className="px-2 sm:px-4 py-2 sm:py-2 mt-4 bg-red-500 hover:bg-red-700 border text-white text-lg rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"
+            className={`font-semibold py-3 px-6 mt-5 rounded-lg shadow-lg transition duration-300 ${
+              theme === "dark" ? "bg-gray-800 text-white hover:bg-gray-700" : "bg-white text-red-600 hover:bg-gray-100"
+            }`}
           >
             Join as a Donor
           </button>
