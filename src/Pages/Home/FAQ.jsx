@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
-const FAQ = () => {
+const FAQ = ({ theme }) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const toggleAccordion = (index) => {
@@ -36,12 +37,13 @@ const FAQ = () => {
     ];
 
     return (
-        <section className="py-12 px-6 mt-14 bg-red-50 mb-5">
+        <section className={`py-16 px-6 transition-all duration-300 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-red-50 text-gray-800'}`}>
             <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-4xl font-bold text-red-700 border-b-4 border-red-500 inline-block pb-2">
+                <h2 className={`text-4xl font-bold border-b-4 inline-block pb-2 transition-all duration-300 
+                    ${theme === 'dark' ? 'text-red-400 border-red-500' : 'text-red-700 border-red-500'}`}>
                     Frequently Asked Questions
                 </h2>
-                <p className="mt-6 text-lg text-gray-700">
+                <p className="mt-6 text-lg">
                     Here are some common questions about blood donation. If you have more questions, feel free to reach out to us!
                 </p>
             </div>
@@ -49,26 +51,37 @@ const FAQ = () => {
             {/* Accordion FAQ Section */}
             <div className="mt-12 max-w-5xl mx-auto">
                 {faqData.map((item, index) => (
-                    <div
+                    <motion.div
                         key={index}
-                        className="bg-white rounded-lg shadow-lg mb-4 p-4 border-l-4 border-red-500"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ duration: 0.4 }}
+                        className={`rounded-lg shadow-lg mb-4 p-4 border-l-4 transition-all duration-300 cursor-pointer 
+                            ${theme === 'dark' ? 'bg-gray-800 border-red-500 text-white' : 'bg-white border-red-500 text-gray-800'}`}
+                        onClick={() => toggleAccordion(index)}
                     >
-                        <div
-                            onClick={() => toggleAccordion(index)}
-                            className="cursor-pointer flex justify-between items-center"
-                        >
-                            <h3 className="text-xl font-semibold text-red-700">{item.question}</h3>
-                            <span
-                                className={`text-xl font-bold text-red-500 transition-transform duration-300 ${activeIndex === index ? "rotate-180" : ""
-                                    }`}
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-xl font-semibold">{item.question}</h3>
+                            <motion.span
+                                className="text-xl font-bold text-red-500"
+                                animate={{ rotate: activeIndex === index ? 180 : 0 }}
+                                transition={{ duration: 0.3 }}
                             >
                                 ⬇
-                            </span>
+                            </motion.span>
                         </div>
                         {activeIndex === index && (
-                            <p className="mt-3 text-gray-600">{item.answer}</p>
+                            <motion.p 
+                                initial={{ opacity: 0, height: 0 }} 
+                                animate={{ opacity: 1, height: "auto" }} 
+                                transition={{ duration: 0.3 }}
+                                className="mt-3 text-gray-600"
+                            >
+                                {item.answer}
+                            </motion.p>
                         )}
-                    </div>
+                    </motion.div>
                 ))}
             </div>
         </section>

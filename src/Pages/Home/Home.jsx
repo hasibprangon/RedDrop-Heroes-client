@@ -20,11 +20,11 @@ const Home = () => {
            <Banner theme={theme} handleTheme={handleTheme} ></Banner>
            <About theme={theme}></About>
            <ContactUs theme={theme}></ContactUs>
-           <Featured></Featured>
-           <DonationRequests></DonationRequests>
-           <Blog></Blog>
-           <Testimonials></Testimonials>
-           <FAQ></FAQ>
+           <Featured theme={theme}></Featured>
+           <DonationRequests theme={theme}></DonationRequests>
+           <Blog theme={theme}></Blog>
+           <Testimonials theme={theme}></Testimonials>
+           <FAQ theme={theme}></FAQ>
         </div>
     );
 };

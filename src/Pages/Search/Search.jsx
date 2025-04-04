@@ -39,7 +39,7 @@ const Search = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 mt-20">
       {/* Search Form */}
       <div className="bg-red-100 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-red-600 mb-4">Search for Donors</h2>
